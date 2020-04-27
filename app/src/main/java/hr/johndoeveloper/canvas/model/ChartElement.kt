@@ -1,4 +1,4 @@
-package hr.johndoeveloper.model
+package hr.johndoeveloper.canvas.model
 
 data class ChartElement(
     val text: String,

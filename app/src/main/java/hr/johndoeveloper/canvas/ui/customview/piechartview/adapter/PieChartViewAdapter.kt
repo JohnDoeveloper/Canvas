@@ -1,7 +1,7 @@
 package hr.johndoeveloper.canvas.ui.customview.piechartview.adapter
 
-import hr.johndoeveloper.model.ChartElement
-import hr.johndoeveloper.model.piechart.PieChartStyle
+import hr.johndoeveloper.canvas.model.ChartElement
+import hr.johndoeveloper.canvas.model.piechart.PieChartStyle
 
 /** The adapter should through the use of Kotlin Coroutines animate the pie chart so that
  * either each section starts and ends growing at the same time or that the chart

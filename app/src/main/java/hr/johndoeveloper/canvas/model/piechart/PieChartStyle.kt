@@ -1,6 +1,6 @@
-package hr.johndoeveloper.model.piechart
+package hr.johndoeveloper.canvas.model.piechart
 
-import hr.johndoeveloper.constants.individualCuts
+import hr.johndoeveloper.canvas.constants.individualCuts
 
 data class PieChartStyle(
     val chartOutlineThickness: Double = 0.0,
