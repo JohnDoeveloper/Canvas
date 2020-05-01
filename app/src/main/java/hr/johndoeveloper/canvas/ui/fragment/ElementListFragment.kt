@@ -6,6 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import hr.johndoeveloper.canvas.R
+import hr.johndoeveloper.canvas.model.ChartElement
+import hr.johndoeveloper.canvas.model.piechart.PieChartStyle
+import hr.johndoeveloper.canvas.ui.customview.piechartview.adapter.PieChartViewAdapter
+import kotlinx.android.synthetic.main.fragment_pie_chart.*
 
 class ElementListFragment : Fragment() {
 
@@ -16,4 +20,5 @@ class ElementListFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_element_list, container, false)
     }
+
 }
