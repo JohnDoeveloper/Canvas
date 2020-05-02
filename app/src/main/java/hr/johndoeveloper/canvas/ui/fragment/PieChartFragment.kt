@@ -39,10 +39,12 @@ class PieChartFragment : BaseFragment() {
                 ChartElement("that", 70.0),
                 ChartElement("that",40.0),
                 ChartElement("that",35.0),
+                ChartElement("that",40.0),
+                ChartElement("that",40.0),
                 ChartElement("that",40.0)
             ),
             PieChartStyle(
-                animationStyle = individualCuts,
+                animationStyle = fullCircle,
                 chartDesign = centralCutout
             )
         )
