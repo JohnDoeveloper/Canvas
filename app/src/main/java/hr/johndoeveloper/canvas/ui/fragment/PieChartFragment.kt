@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import hr.johndoeveloper.canvas.R
+import hr.johndoeveloper.canvas.constants.centralCutout
 import hr.johndoeveloper.canvas.constants.fullCircle
 import hr.johndoeveloper.canvas.constants.individualCuts
 import hr.johndoeveloper.canvas.model.ChartElement
@@ -35,10 +36,14 @@ class PieChartFragment : BaseFragment() {
                 ChartElement("that", 80.0),
                 ChartElement("that", 10.0),
                 ChartElement("that", 60.0),
-                ChartElement("that", 70.0)
+                ChartElement("that", 70.0),
+                ChartElement("that",40.0),
+                ChartElement("that",35.0),
+                ChartElement("that",40.0)
             ),
             PieChartStyle(
-                animationStyle = fullCircle
+                animationStyle = individualCuts,
+                chartDesign = centralCutout
             )
         )
     }

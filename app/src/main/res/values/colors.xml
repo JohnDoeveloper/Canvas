@@ -29,5 +29,8 @@
 
     <!-- Red -->
     <color name="colourRed">#ff7670</color>
+    
+    <!-- White -->
+    <color name="colourWhite">#ffffff</color>
 
 </resources>

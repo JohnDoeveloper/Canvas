@@ -12,15 +12,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.sqrt
 
-/** The adapter should through the use of Kotlin Coroutines animate the pie chart so that
- * either each section starts and ends growing at the same time or that the chart
- * grows in a 0 to 360 degree manner.
- *
- * There is a possibility of implementing both solutions and leaving the choice up
- * to the user via a constant passed as an argument to the adapter
- */
-
-
 class PieChartViewAdapter(
     val listOfElements: List<ChartElement>,
     val pieChartStyle: PieChartStyle
@@ -34,13 +25,13 @@ class PieChartViewAdapter(
         displayChart()
     }
 
-    fun calculateTotal() {
+    private fun calculateTotal() {
         listOfElements.forEach {
             total += it.quantity
         }
     }
 
-    fun processElements() {
+    private fun processElements() {
         calculateTotal()
         for (i in listOfElements.indices) {
             var arcStart = when (i) {
@@ -60,50 +51,57 @@ class PieChartViewAdapter(
         }
     }
 
-    fun displayChart() {
+    fun getSlowdownValue(constant: Float, totalTime: Long, remainder: Float = 0f) =
+        (constant / (totalTime)) + remainder
+
+    private fun displayChart() {
         processElements()
         if (pieChartStyle.animationStyle == fullCircle) {
             GlobalScope.launch {
-                var totalTime = 0f
+                var totalTime = 1L
                 val delayTime = 1L
                 var remainder = 0f
                 processedElementsList.forEach {
                     val arcSweepAngle = it.finalArcSweepAngle
                     while (it.arcSweepAngle < arcSweepAngle) {
+                        val newSweepAngle = getSlowdownValue(
+                            47f,
+                            totalTime,
+                            remainder
+                        )
                         when {
-                            it.arcSweepAngle < arcSweepAngle -> {
-                                it.arcSweepAngle += ((360 / 360f) * sqrt(
-                                    totalTime/100 + remainder
-                                ))}
-                                it.arcSweepAngle >= arcSweepAngle -> {
-                                    remainder = it.arcSweepAngle - arcSweepAngle
-                                    it.arcSweepAngle = arcSweepAngle
-                                }
+                            newSweepAngle < arcSweepAngle -> it.arcSweepAngle += newSweepAngle
+                            newSweepAngle >= arcSweepAngle -> {
+                                remainder = newSweepAngle - arcSweepAngle
+                                it.arcSweepAngle = arcSweepAngle
                             }
-                            totalTime += delayTime
-                                    delay (delayTime)
                         }
+                        totalTime += delayTime
+                        delay(delayTime)
                     }
                 }
             }
-            if (pieChartStyle.animationStyle == individualCuts) {
-                processedElementsList.forEach {
-                    val arcSweepAngle = it.finalArcSweepAngle
-                    var totalTime = 0f
-                    val delayTime = 8L
-                    GlobalScope.launch {
-                        while (it.arcSweepAngle < arcSweepAngle) {
-                            when {
-                                it.arcSweepAngle < arcSweepAngle -> it.arcSweepAngle += ((it.finalArcSweepAngle / 400) * sqrt(
-                                    totalTime
-                                ))
-                                it.arcSweepAngle > arcSweepAngle -> it.arcSweepAngle = arcSweepAngle
-                            }
-                            totalTime += delayTime
-                            delay(delayTime)
+        }
+        if (pieChartStyle.animationStyle == individualCuts) {
+            processedElementsList.forEach {
+                val arcSweepAngle = it.finalArcSweepAngle
+                var totalTime = 7L
+                val delayTime = 8L
+                GlobalScope.launch {
+                    while (it.arcSweepAngle < arcSweepAngle) {
+                        val newSweepAngle = getSlowdownValue(
+                            it.finalArcSweepAngle * 2,
+                            totalTime
+                        )
+                        when {
+                            newSweepAngle < arcSweepAngle -> it.arcSweepAngle += newSweepAngle
+                            newSweepAngle >= arcSweepAngle -> it.arcSweepAngle = arcSweepAngle
                         }
+                        totalTime += delayTime
+                        delay(delayTime)
                     }
                 }
             }
         }
     }
+}
