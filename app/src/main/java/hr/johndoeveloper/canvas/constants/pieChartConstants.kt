@@ -2,11 +2,11 @@ package hr.johndoeveloper.canvas.constants
 
 
 /** animation style constants */
-const val fullCircle: String = "FULL_CIRCLE"
-const val individualCuts: String = "INDIVIDUAL_CUTS"
-const val no_animation: String = "NO_ANIMATION"
+const val FULL_CIRCLE: String = "FULL_CIRCLE"
+const val INDIVIDUAL_Slices: String = "INDIVIDUAL_SLICES"
+const val NO_ANIMATION: String = "NO_ANIMATION"
 
 
 /** PieChart design constants */
-const val solid = "SOLID"
-const val centralCutout = "CENTRAL_CUTOUT"
+const val SOLID = "SOLID"
+const val CENTRAL_CUTOUT = "CENTRAL_CUTOUT"

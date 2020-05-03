@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import hr.johndoeveloper.canvas.R
-import hr.johndoeveloper.canvas.constants.centralCutout
-import hr.johndoeveloper.canvas.constants.fullCircle
-import hr.johndoeveloper.canvas.constants.individualCuts
+import hr.johndoeveloper.canvas.constants.*
 import hr.johndoeveloper.canvas.model.ChartElement
 import hr.johndoeveloper.canvas.model.piechart.PieChartStyle
 import hr.johndoeveloper.canvas.ui.customview.piechartview.adapter.PieChartViewAdapter
@@ -29,7 +27,37 @@ class PieChartFragment : BaseFragment() {
         createAdapter()
     }
 
-    fun createAdapter() {
+    private fun setListeners() {
+      setButtonListener()
+        setChartDesignRadioGroupListener()
+        setAnimationStyleRadioGroupListener()
+    }
+
+    private fun setButtonListener(){
+        buttonDraw.setOnClickListener { pieChartView.adapter.drawChart() }
+    }
+
+    private fun setChartDesignRadioGroupListener(){
+        radioGroupChartDesign.setOnCheckedChangeListener { group, checkedId ->
+            pieChartView.adapter.pieChartStyle.chartDesign = when (checkedId) {
+                R.id.radioButtonSolid -> SOLID
+                R.id.radioButtonCutout -> CENTRAL_CUTOUT
+                else -> SOLID
+            }
+        }
+    }
+
+    private fun setAnimationStyleRadioGroupListener(){
+        radioGroupAnimationStyle.setOnCheckedChangeListener { group, checkedId ->
+            pieChartView.adapter.pieChartStyle.animationStyle = when (checkedId) {
+                R.id.radioButtonFullCircle -> FULL_CIRCLE
+                R.id.radioButtonIndividualSlices -> INDIVIDUAL_Slices
+                else -> NO_ANIMATION
+            }
+        }
+    }
+
+    private fun createAdapter() {
         pieChartView.adapter = PieChartViewAdapter(
             listOf(
                 ChartElement("this", 50.0),
@@ -37,17 +65,18 @@ class PieChartFragment : BaseFragment() {
                 ChartElement("that", 10.0),
                 ChartElement("that", 60.0),
                 ChartElement("that", 70.0),
-                ChartElement("that",40.0),
-                ChartElement("that",35.0),
-                ChartElement("that",40.0),
-                ChartElement("that",40.0),
-                ChartElement("that",40.0)
+                ChartElement("that", 40.0),
+                ChartElement("that", 35.0),
+                ChartElement("that", 40.0),
+                ChartElement("that", 40.0),
+                ChartElement("that", 40.0)
             ),
             PieChartStyle(
-                animationStyle = fullCircle,
-                chartDesign = centralCutout
+                animationStyle = NO_ANIMATION,
+                chartDesign = CENTRAL_CUTOUT
             )
         )
+        setListeners()
     }
 
 

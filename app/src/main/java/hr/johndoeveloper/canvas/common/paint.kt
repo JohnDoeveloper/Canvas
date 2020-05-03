@@ -2,7 +2,6 @@ package hr.johndoeveloper.canvas.common
 
 import android.graphics.Paint
 import androidx.core.content.ContextCompat
-import hr.johndoeveloper.canvas.R
 import hr.johndoeveloper.canvas.application.CanvasApp
 
 fun getPaintObject(colorResource: Int) = Paint().apply {

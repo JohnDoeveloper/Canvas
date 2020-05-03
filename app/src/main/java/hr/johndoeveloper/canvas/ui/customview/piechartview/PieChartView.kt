@@ -3,19 +3,17 @@ package hr.johndoeveloper.canvas.ui.customview.piechartview
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import hr.johndoeveloper.canvas.R
 import hr.johndoeveloper.canvas.application.CanvasApp
-import hr.johndoeveloper.canvas.common.colourList
-import hr.johndoeveloper.canvas.common.getListOfPaintObjects
-import hr.johndoeveloper.canvas.constants.centralCutout
-import hr.johndoeveloper.canvas.constants.solid
-import hr.johndoeveloper.canvas.model.ChartElement
+import hr.johndoeveloper.canvas.constants.CENTRAL_CUTOUT
+import hr.johndoeveloper.canvas.constants.SOLID
 import hr.johndoeveloper.canvas.ui.customview.piechartview.adapter.PieChartViewAdapter
+import kotlin.math.max
+import kotlin.math.min
 
 class PieChartView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
@@ -29,17 +27,28 @@ class PieChartView(context: Context, attributeSet: AttributeSet) : View(context,
         updateInnerPieChartRect(w, h)
     }
 
+    /**Refactor the first two functions below so that they don't violate DRY*/
     private fun updatePieChartRect(width: Int, height: Int) {
-        val left = (width - height) / 2f
-        val right = (width - height) / 2f + height.toFloat()
-        pieChartRect = RectF(left, 0f, right, height.toFloat())
+        val horizontalCenter = width / 2f
+        val verticalCenter = height / 2f
+        val min = min(horizontalCenter, verticalCenter)
+        val left = horizontalCenter - min
+        val right = horizontalCenter + min
+        val top = horizontalCenter - min
+        val bottom = horizontalCenter + min
+        pieChartRect = RectF(left, top, right, bottom)
     }
 
     private fun updateInnerPieChartRect(width: Int, height: Int) {
-        val padding = height / 1.4f
-        val left = (width - height) / 2f
-        val right = (width - height) / 2f + height.toFloat()
-        innerPieChartRect = RectF(left + padding, 0f + padding, right - padding, height - padding)
+        val padding = min(width,height) / 1.4f
+        val horizontalCenter = width / 2f
+        val verticalCenter = height / 2f
+        val min = min(horizontalCenter, verticalCenter)
+        val left = horizontalCenter - min + padding
+        val right = horizontalCenter + min - padding
+        val top = horizontalCenter - min + padding
+        val bottom = horizontalCenter + min - padding
+        innerPieChartRect = RectF(left, top, right, bottom)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -47,8 +56,8 @@ class PieChartView(context: Context, attributeSet: AttributeSet) : View(context,
         if (this::adapter.isInitialized)
             canvas?.let {
                 when (adapter.pieChartStyle.chartDesign) {
-                    solid -> drawPieCutSolid(it)
-                    centralCutout -> drawPieCutCutout(it)
+                    SOLID -> drawPieCutSolid(it)
+                    CENTRAL_CUTOUT -> drawPieCutCutout(it)
                 }
                 invalidate()
             }

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Canvas</string>
+    <string name="full_circle">Full Circle</string>
+    <string name="individual_slices">Individual Slices</string>
+    <string name="animation_style">Animation Style</string>
+    <string name="no_animation">No Animation</string>
+    <string name="solid">Solid</string>
+    <string name="cutout">Cutout</string>
+    <string name="chart_design">Chart Design</string>
+    <string name="draw">Draw</string>
 </resources>
